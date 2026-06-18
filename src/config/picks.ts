@@ -66,4 +66,26 @@ export const picks: PoolPick[] = [
       name: "Graeme McDowell",
     },
   },
+  {
+    participant: "Ralph",
+    goodGolfer: {
+      id: "46970",
+      name: "Jon Rahm",
+    },
+    badGolfer: {
+      id: "32102",
+      name: "Rickie Fowler",
+    },
+  },
+  {
+    participant: "Jared",
+    goodGolfer: {
+      id: "30911",
+      name: "Tommy Fleetwood",
+    },
+    badGolfer: {
+      id: "51634",
+      name: "Sahith Theegala",
+    },
+  },
 ];

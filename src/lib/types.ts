@@ -112,6 +112,7 @@ export type GolferRound = {
   round: number;
   toPar: number | null;
   display: string;
+  thru: string | null;
   status: GolferRoundStatus;
 };
 

@@ -158,6 +158,7 @@ function normalizeGolfer(
         round: index + 1,
         toPar: null,
         display: "--",
+        thru: null,
         status: "pending",
       })),
     };
@@ -178,6 +179,7 @@ function normalizeGolfer(
         round,
         toPar,
         display: formatSigned(toPar),
+        thru: null,
         status: "complete",
       };
     }
@@ -189,6 +191,7 @@ function normalizeGolfer(
           round,
           toPar,
           display: formatSigned(toPar),
+          thru: formatThru(standing.holesThrough?.displayValue),
           status: standing.holesThrough?.displayValue === "F" ? "complete" : "live",
         };
       }
@@ -199,6 +202,7 @@ function normalizeGolfer(
         round,
         toPar: null,
         display: status === "withdrawn" ? "WD" : "MC",
+        thru: null,
         status: "cut",
       };
     }
@@ -207,6 +211,7 @@ function normalizeGolfer(
       round,
       toPar: null,
       display: "--",
+      thru: null,
       status: "pending",
     };
   });
@@ -334,4 +339,16 @@ function hasStartedCurrentRound(standing: UsgaLeaderboardStanding): boolean {
   return Boolean(
     (standing.holesThrough?.value ?? 0) > 0 || standing.holesThrough?.displayValue === "F",
   );
+}
+
+function formatThru(displayValue: string | undefined): string | null {
+  if (!displayValue) {
+    return null;
+  }
+
+  if (displayValue === "F") {
+    return "F";
+  }
+
+  return displayValue;
 }

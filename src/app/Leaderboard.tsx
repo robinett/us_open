@@ -116,9 +116,8 @@ function RoundCell({ round }: { round: ParticipantRound }) {
   return (
     <td className={round.status === "live" ? "liveRound" : ""}>
       <span className="roundDiff">{round.diffDisplay}</span>
-      <span className="roundDetail">
-        G {round.good.display} / B {round.bad.display}
-      </span>
+      <span className="roundDetail">G: {formatGolferRoundLine(round.good)}</span>
+      <span className="roundDetail">B: {formatGolferRoundLine(round.bad)}</span>
       <span className="statusText">{formatRoundStatus(round.status)}</span>
     </td>
   );
@@ -161,9 +160,8 @@ function MobileRow({
           <div key={round.round}>
             <span>R{round.round}</span>
             <strong>{round.diffDisplay}</strong>
-            <em>
-              G {round.good.display} / B {round.bad.display}
-            </em>
+            <em>G: {formatGolferRoundLine(round.good)}</em>
+            <em>B: {formatGolferRoundLine(round.bad)}</em>
           </div>
         ))}
       </div>
@@ -274,4 +272,12 @@ function formatRoundStatus(status: ParticipantRound["status"]): string {
   }
 
   return "Final";
+}
+
+function formatGolferRoundLine(round: ParticipantRound["good"]): string {
+  if (!round.thru) {
+    return round.display;
+  }
+
+  return `${round.display} thru ${round.thru}`;
 }

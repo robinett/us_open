@@ -71,6 +71,8 @@ describe("buildPoolLeaderboard", () => {
 
     expect(leaderboard.rows[0].rounds.map((round) => round.diff)).toEqual([4, 2, 3, null]);
     expect(leaderboard.rows[0].rounds[2].status).toBe("live");
+    expect(leaderboard.rows[0].rounds[2].good.thru).toBe("9");
+    expect(leaderboard.rows[0].rounds[2].bad.thru).toBe("8");
     expect(leaderboard.rows[0].total).toBe(9);
   });
 
