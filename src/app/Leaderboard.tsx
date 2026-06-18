@@ -118,7 +118,6 @@ function RoundCell({ round }: { round: ParticipantRound }) {
       <span className="roundDiff">{round.diffDisplay}</span>
       <span className="roundDetail">G: {formatGolferRoundLine(round.good)}</span>
       <span className="roundDetail">B: {formatGolferRoundLine(round.bad)}</span>
-      <span className="statusText">{formatRoundStatus(round.status)}</span>
     </td>
   );
 }
@@ -256,22 +255,6 @@ function scoreMarkClass(relationToPar: number | null): string {
   }
 
   return "doubleSquare";
-}
-
-function formatRoundStatus(status: ParticipantRound["status"]): string {
-  if (status === "cutPenalty") {
-    return "-5 penalty";
-  }
-
-  if (status === "live") {
-    return "Live";
-  }
-
-  if (status === "pending") {
-    return "Yet to play";
-  }
-
-  return "Final";
 }
 
 function formatGolferRoundLine(round: ParticipantRound["good"]): string {
