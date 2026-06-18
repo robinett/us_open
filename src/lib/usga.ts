@@ -55,12 +55,17 @@ async function fetchUsga<T>(url: string): Promise<T> {
   const response = await fetch(url, {
     cache: "no-store",
     headers: {
+      Accept: "application/json, text/plain, */*",
       "Ocp-Apim-Subscription-Key": API_KEY,
+      Origin: "https://www.usopen.com",
+      Referer: "https://www.usopen.com/2026/scoring.html",
+      "User-Agent":
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
     },
   });
 
   if (!response.ok) {
-    throw new Error(`USGA request failed: ${response.status} ${response.statusText}`);
+    throw new Error(`USGA request failed: ${response.status} ${response.statusText} for ${url}`);
   }
 
   return response.json() as Promise<T>;
