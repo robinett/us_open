@@ -1,66 +1,68 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import { getPoolLeaderboard } from "@/lib/usga";
+import { Leaderboard } from "@/app/Leaderboard";
 
-export default function Home() {
+export const dynamic = "force-dynamic";
+
+export default async function Home() {
+  let leaderboard;
+  let error: string | null = null;
+
+  try {
+    leaderboard = await getPoolLeaderboard();
+  } catch (caught) {
+    error = caught instanceof Error ? caught.message : "Unable to load leaderboard.";
+  }
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="pageShell">
+      <section className="topBar" aria-labelledby="page-title">
+        <div>
+          <p className="eyebrow">2026 U.S. Open pool</p>
+          <h1 id="page-title">Good golfer, bad golfer leaderboard</h1>
         </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+        {leaderboard ? (
+          <dl className="metaGrid" aria-label="Tournament status">
+            <div>
+              <dt>Round</dt>
+              <dd>{leaderboard.tournamentRound}</dd>
+            </div>
+            <div>
+              <dt>Current cut</dt>
+              <dd>{leaderboard.cutLine ?? "--"}</dd>
+            </div>
+            <div>
+              <dt>Updated</dt>
+              <dd>{formatTimestamp(leaderboard.generatedAt)}</dd>
+            </div>
+          </dl>
+        ) : null}
+      </section>
+
+      {error ? (
+        <section className="notice errorNotice" role="alert">
+          <strong>Leaderboard unavailable.</strong>
+          <span>{error}</span>
+        </section>
+      ) : null}
+
+      {leaderboard?.warnings.length ? (
+        <section className="notice" aria-label="Configuration warnings">
+          <strong>Check picks:</strong>
+          <span>{leaderboard.warnings.join(" ")}</span>
+        </section>
+      ) : null}
+
+      {leaderboard ? (
+        <Leaderboard rows={leaderboard.rows} />
+      ) : null}
+    </main>
   );
+}
+
+function formatTimestamp(value: string): string {
+  return new Intl.DateTimeFormat("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    timeZoneName: "short",
+  }).format(new Date(value));
 }

@@ -1,17 +1,17 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #f6f7f9;
+  --foreground: #17202a;
+  --muted: #667085;
+  --line: #d8dde6;
+  --panel: #ffffff;
+  --blue: #173f73;
+  --red: #b4232a;
+  --green: #157347;
+  --shadow: 0 12px 30px rgba(23, 32, 42, 0.08);
 }
 
 html {
-  height: 100%;
+  min-height: 100%;
 }
 
 html,
@@ -22,8 +22,6 @@ body {
 
 body {
   min-height: 100%;
-  display: flex;
-  flex-direction: column;
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
@@ -33,17 +31,480 @@ body {
 
 * {
   box-sizing: border-box;
-  padding: 0;
   margin: 0;
+  padding: 0;
 }
 
-a {
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+.pageShell {
+  width: min(1420px, calc(100vw - 32px));
+  margin: 0 auto;
+  padding: 32px 0;
+}
+
+.topBar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 18px 0 24px;
+  border-bottom: 3px solid var(--blue);
+}
+
+.eyebrow {
+  color: var(--red);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1 {
+  max-width: 760px;
+  margin-top: 6px;
+  font-size: clamp(2rem, 5vw, 4rem);
+  line-height: 0.98;
+  letter-spacing: 0;
+}
+
+.metaGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(84px, max-content));
+  gap: 10px;
+}
+
+.metaGrid div {
+  min-width: 84px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--panel);
+  padding: 10px 12px;
+}
+
+.metaGrid dt,
+.statusText,
+.roundDetail,
+.rankLabel,
+.pickGrid span,
+.mobileRounds span {
+  color: var(--muted);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.metaGrid dd {
+  margin-top: 4px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.notice {
+  display: flex;
+  gap: 8px;
+  margin: 18px 0 0;
+  border: 1px solid #f5c46b;
+  border-radius: 6px;
+  background: #fff8e8;
+  padding: 12px 14px;
+  color: #6f4b00;
+}
+
+.errorNotice {
+  border-color: #f0a4a7;
+  background: #fff1f2;
+  color: #8a1f26;
+}
+
+.desktopBoard {
+  margin-top: 24px;
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+}
+
+table {
+  width: 100%;
+  min-width: 1120px;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border-bottom: 1px solid var(--line);
+  padding: 14px 12px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+th {
+  background: #eef2f7;
+  color: #344054;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+tbody tr:hover {
+  background: #f9fbfe;
+}
+
+.leaderboardRow {
+  cursor: pointer;
+}
+
+.leaderboardRow:focus-within,
+.leaderboardRow:hover {
+  background: #f6f9fd;
+}
+
+.rankCell {
+  width: 64px;
+  color: var(--blue);
+  font-weight: 900;
+  font-size: 1.2rem;
+}
+
+.participantButton,
+.mobileCardButton {
+  border: 0;
+  background: transparent;
   color: inherit;
-  text-decoration: none;
+  cursor: pointer;
+  font-weight: 900;
+  text-align: left;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+.participantButton:hover,
+.participantButton:focus-visible {
+  color: var(--blue);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.pickName,
+.roundDiff {
+  display: block;
+  font-weight: 900;
+}
+
+.totalCell {
+  font-weight: 900;
+}
+
+.roundDiff {
+  font-size: 1.18rem;
+}
+
+.roundDetail,
+.statusText {
+  display: block;
+  margin-top: 5px;
+}
+
+.liveRound .roundDiff,
+.liveRound .statusText {
+  color: var(--green);
+}
+
+.totalCell {
+  color: var(--blue);
+  font-size: 1.45rem;
+}
+
+.totalHeader,
+.totalCell {
+  width: 96px;
+  min-width: 96px;
+  text-align: center;
+}
+
+.flag {
+  display: inline-block;
+  margin-top: 8px;
+  border-radius: 999px;
+  background: #fef3f2;
+  padding: 4px 8px;
+  color: var(--red);
+  font-size: 0.74rem;
+  font-weight: 800;
+}
+
+.mobileBoard {
+  display: none;
+}
+
+.mobileCard {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  padding: 16px;
+}
+
+.mobileCard + .mobileCard {
+  margin-top: 14px;
+}
+
+.mobileCard header,
+.pickGrid,
+.mobileRounds {
+  display: grid;
+  gap: 12px;
+}
+
+.mobileCard header {
+  grid-template-columns: 1fr auto;
+  align-items: start;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 14px;
+}
+
+.mobileCardButton {
+  display: block;
+  width: 100%;
+}
+
+.mobileCard h2 {
+  margin-top: 4px;
+  font-size: 1.3rem;
+}
+
+.mobileTotal {
+  color: var(--blue);
+  font-size: 2rem;
+}
+
+.pickGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 14px;
+}
+
+.pickGrid div {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 10px;
+}
+
+.pickGrid strong,
+.pickGrid em,
+.mobileRounds strong,
+.mobileRounds em {
+  display: block;
+  margin-top: 4px;
+  font-style: normal;
+}
+
+.pickGrid em,
+.mobileRounds em {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.mobileRounds {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: 14px;
+}
+
+.mobileRounds div {
+  min-width: 0;
+  border-top: 3px solid var(--blue);
+  background: #f8fafc;
+  padding: 10px;
+}
+
+.mobileRounds strong {
+  font-size: 1.1rem;
+}
+
+.cardNote {
+  margin-top: 12px;
+  color: var(--red);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.scorecardRow td {
+  background: #fbfcfe;
+  padding: 18px;
+}
+
+.scorecardPanel {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.golferScorecard {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+}
+
+.golferScorecard header {
+  border-bottom: 1px solid var(--line);
+  padding: 12px 14px;
+}
+
+.golferScorecard header span {
+  color: var(--red);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.golferScorecard h3 {
+  margin-top: 3px;
+  font-size: 1rem;
+}
+
+.emptyScorecard {
+  padding: 14px;
+  color: var(--muted);
+}
+
+.roundScorecard {
+  padding: 14px;
+}
+
+.roundScorecard + .roundScorecard {
+  border-top: 1px solid var(--line);
+}
+
+.roundScorecardTitle {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.roundScorecardTitle span {
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.holeGrid {
+  display: grid;
+  grid-template-columns: repeat(9, minmax(42px, 1fr));
+  gap: 6px;
+}
+
+.holeCell {
+  min-width: 0;
+  border: 1px solid #e4e7ec;
+  border-radius: 6px;
+  background: #f8fafc;
+  padding: 6px 4px;
+  text-align: center;
+}
+
+.holeNumber,
+.holePar {
+  display: block;
+  color: var(--muted);
+  font-size: 0.68rem;
+  font-weight: 800;
+}
+
+.scoreMark {
+  display: inline-grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  margin: 5px 0;
+  color: var(--foreground);
+  font-size: 0.9rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.circle {
+  border: 2px solid var(--red);
+  border-radius: 999px;
+}
+
+.doubleCircle {
+  border: 4px double var(--red);
+  border-radius: 999px;
+}
+
+.square {
+  border: 2px solid var(--blue);
+}
+
+.doubleSquare {
+  border: 4px double var(--blue);
+}
+
+@media (max-width: 900px) {
+  .pageShell {
+    width: min(100vw - 24px, 680px);
+    padding: 22px 0;
+  }
+
+  .topBar {
+    display: block;
+  }
+
+  .metaGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: 18px;
+  }
+
+  .desktopBoard {
+    display: none;
+  }
+
+  .mobileBoard {
+    display: block;
+    margin-top: 18px;
+  }
+
+  .scorecardPanel {
+    grid-template-columns: 1fr;
+    margin-top: 14px;
+  }
+}
+
+@media (max-width: 560px) {
+  .pageShell {
+    width: min(100vw - 20px, 680px);
+  }
+
+  .metaGrid,
+  .pickGrid,
+  .mobileRounds {
+    grid-template-columns: 1fr;
+  }
+
+  .notice {
+    display: block;
+  }
+
+  .notice span {
+    display: block;
+    margin-top: 4px;
+  }
+
+  .holeGrid {
+    grid-template-columns: repeat(6, minmax(40px, 1fr));
   }
 }
